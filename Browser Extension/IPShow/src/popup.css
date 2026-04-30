@@ -1,0 +1,132 @@
+﻿:root {
+  color-scheme: light;
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+  background:
+    radial-gradient(circle at top left, #ddf4ff 0%, transparent 38%),
+    linear-gradient(180deg, #f6fbff 0%, #eef4ff 100%);
+  color: #12304a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 340px;
+  background: transparent;
+}
+
+.panel {
+  padding: 16px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #53708c;
+}
+
+h1 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.1;
+  word-break: break-all;
+}
+
+.status-banner {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: #fff0c7;
+  color: #725500;
+}
+
+.hidden {
+  display: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card {
+  padding: 12px;
+  border: 1px solid rgba(85, 126, 167, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #5f7893;
+}
+
+.value {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.updated-at {
+  font-size: 11px;
+  color: #607891;
+}
+
+.primary-button,
+.ghost-button {
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.primary-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-button:active,
+.ghost-button:active {
+  transform: translateY(0);
+}
+
+.primary-button {
+  padding: 9px 14px;
+  font-size: 12px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0f6cc8 0%, #2196f3 100%);
+}
+
+.ghost-button {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #0d5ca8;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(13, 92, 168, 0.14);
+}
