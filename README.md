@@ -1,0 +1,2 @@
+# SidgoderBrowserExtension
+Many Browser Extensions
