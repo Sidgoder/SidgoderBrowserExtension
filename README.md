@@ -1,2 +1,29 @@
 # SidgoderBrowserExtension
-Many Browser Extensions
+
+SidgoderBrowserExtension 是一个浏览器插件合集仓库，用于集中管理和维护个人开发的浏览器扩展。当前插件主要面向 Chromium 内核浏览器，重点适用于 Chrome 和 Microsoft Edge。
+
+## 当前插件
+
+| 插件 | 简介 | 适用场景 |
+| --- | --- | --- |
+| IPShow | 显示当前公网 IP 地址及地区信息。 | 快速查看当前网络出口 IP、地理位置和相关网络信息。 |
+| OnlyTab | 简洁可自定义的新标签页，提供搜索、时间、天气和背景设置。 | 替换浏览器默认新标签页，提供更清爽的日常入口。 |
+
+## 使用方式
+
+1. 打开 Chrome 或 Edge 的扩展管理页面。
+2. 启用「开发者模式」。
+3. 选择「加载已解压的扩展程序」。
+4. 选择需要加载的插件目录，例如 `IPShow` 或 `OnlyTab`。
+
+## 兼容性
+
+当前插件主要基于 Manifest V3 开发，主要适用于：
+
+- Google Chrome
+- Microsoft Edge
+- 其他兼容 Chromium 扩展机制的浏览器
+
+## 说明
+
+该仓库会持续收录和维护更多浏览器插件。不同插件相互独立，可按需单独加载、调试或发布。
