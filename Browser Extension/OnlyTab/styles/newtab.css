@@ -87,10 +87,13 @@ select {
 .background-video {
   z-index: -3;
   display: none;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   filter: saturate(1.02);
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .background-video.active {
@@ -233,6 +236,7 @@ select {
   left: 50%;
   width: clamp(420px, 41vw, 660px);
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
 .search-wrap {
@@ -263,8 +267,11 @@ select {
 }
 
 .search-history {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 14px;
   width: calc(100% - 28px);
-  margin: 14px auto 0;
+  margin: 0;
   padding: 10px;
   color: var(--panel-text);
   border: 1px solid rgba(137, 150, 166, 0.22);

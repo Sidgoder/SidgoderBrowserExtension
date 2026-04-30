@@ -212,11 +212,15 @@ function applyBackground() {
   }
 
   if (state.source === "video" && runtimeBackground.videoUrl) {
-    elements.backgroundVideo.src = runtimeBackground.videoUrl;
+    if (elements.backgroundVideo.src !== runtimeBackground.videoUrl) {
+      elements.backgroundVideo.src = runtimeBackground.videoUrl;
+    }
     elements.backgroundVideo.play().catch(() => {});
   } else {
-    elements.backgroundVideo.removeAttribute("src");
-    elements.backgroundVideo.load();
+    if (elements.backgroundVideo.hasAttribute("src")) {
+      elements.backgroundVideo.removeAttribute("src");
+      elements.backgroundVideo.load();
+    }
   }
 }
 
@@ -439,11 +443,18 @@ function clearSearchHistory() {
   renderSearchHistory();
 }
 
+function updateSearchHistoryVisibility() {
+  const hasHistory = state.searchHistory.some(Boolean);
+  const activeElement = document.activeElement;
+  const isSearchActive = activeElement === elements.input || elements.historyPanel.contains(activeElement);
+
+  elements.historyPanel.hidden = !hasHistory || !isSearchActive;
+}
+
 function renderSearchHistory() {
   const text = copy();
   const items = state.searchHistory.filter(Boolean);
 
-  elements.historyPanel.hidden = items.length === 0;
   elements.historyList.textContent = "";
 
   items.forEach((query) => {
@@ -466,6 +477,8 @@ function renderSearchHistory() {
     item.append(searchButton, deleteButton);
     elements.historyList.append(item);
   });
+
+  updateSearchHistoryVisibility();
 }
 
 async function readImageFile(file, rawPath) {
@@ -516,6 +529,11 @@ function displayFilePath(file, rawPath) {
 
 function bindEvents() {
   elements.form.addEventListener("submit", handleSearch);
+
+  elements.input.addEventListener("focus", updateSearchHistoryVisibility);
+  elements.input.addEventListener("blur", () => {
+    setTimeout(updateSearchHistoryVisibility, 0);
+  });
 
   elements.settingsButton.addEventListener("click", () => {
     setPanelOpen(elements.panel.classList.contains("closed"));
