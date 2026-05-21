@@ -675,6 +675,10 @@
     return "local-image-" + id;
   }
 
+  function videoKey() {
+    return "local-video";
+  }
+
   function putLocalImageBlob(id, file) {
     return imageStore("readwrite").then(function (entry) {
       return new Promise(function (resolve, reject) {
@@ -696,10 +700,49 @@
     });
   }
 
+  function putVideoBlob(file) {
+    return imageStore("readwrite").then(function (entry) {
+      return new Promise(function (resolve, reject) {
+        var request = entry.store.put({
+          blob: file,
+          type: file.type,
+          name: file.name || "Local wallpaper"
+        }, videoKey());
+
+        request.addEventListener("success", function () {
+          entry.db.close();
+          resolve();
+        });
+        request.addEventListener("error", function () {
+          entry.db.close();
+          reject(request.error);
+        });
+      });
+    });
+  }
+
   function getLocalImageBlob(id) {
     return imageStore("readonly").then(function (entry) {
       return new Promise(function (resolve, reject) {
         var request = entry.store.get(localImageKey(id));
+
+        request.addEventListener("success", function () {
+          var record = request.result;
+          entry.db.close();
+          resolve(record && record.blob || null);
+        });
+        request.addEventListener("error", function () {
+          entry.db.close();
+          reject(request.error);
+        });
+      });
+    });
+  }
+
+  function getVideoBlob() {
+    return imageStore("readonly").then(function (entry) {
+      return new Promise(function (resolve, reject) {
+        var request = entry.store.get(videoKey());
 
         request.addEventListener("success", function () {
           var record = request.result;
@@ -748,6 +791,24 @@
     });
   }
 
+  function loadVideoUrl() {
+    if (runtimeUrls.video) return Promise.resolve(runtimeUrls.video);
+
+    return getVideoBlob().then(function (blob) {
+      if (!blob) return "";
+      runtimeUrls.video = URL.createObjectURL(blob);
+      return runtimeUrls.video;
+    }).catch(function () {
+      return "";
+    });
+  }
+
+  function showVideoBackground(url) {
+    if (el.backgroundVideo.src !== url) el.backgroundVideo.src = url;
+    el.backgroundVideo.classList.add("active");
+    el.backgroundVideo.play().catch(function () {});
+  }
+
   function createLocalImageThumb(file) {
     return new Promise(function (resolve, reject) {
       var url = URL.createObjectURL(file);
@@ -793,10 +854,17 @@
       });
     }
 
-    if (state.source === "video" && runtimeUrls.video) {
-      if (el.backgroundVideo.src !== runtimeUrls.video) el.backgroundVideo.src = runtimeUrls.video;
-      el.backgroundVideo.classList.add("active");
-      el.backgroundVideo.play().catch(function () {});
+    if (state.source === "video") {
+      if (runtimeUrls.video) {
+        showVideoBackground(runtimeUrls.video);
+      } else {
+        loadVideoUrl().then(function (url) {
+          if (state.source !== "video" || !url) return;
+          showVideoBackground(url);
+        });
+        el.backgroundVideo.removeAttribute("src");
+        el.backgroundVideo.load();
+      }
     } else {
       el.backgroundVideo.removeAttribute("src");
       el.backgroundVideo.load();
@@ -1031,6 +1099,7 @@
       state.imageDataUrl = "";
       saveState();
       applyState();
+      putVideoBlob(file).catch(function () {});
       return;
     }
 
