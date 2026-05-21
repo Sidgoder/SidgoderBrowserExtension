@@ -163,6 +163,18 @@ test("local wallpaper image data persists outside localStorage", () => {
   assert.match(script, /thumbDataUrl/);
 });
 
+test("local wallpaper video data persists outside runtime blob URLs", () => {
+  assert.match(script, /function videoKey/);
+  assert.match(script, /return "local-video"/);
+  assert.match(script, /function putVideoBlob/);
+  assert.match(script, /function getVideoBlob/);
+  assert.match(script, /function loadVideoUrl/);
+  assert.match(script, /putVideoBlob\(file\)\.catch/);
+  assert.match(script, /loadVideoUrl\(\)\.then/);
+  assert.match(script, /showVideoBackground\(url\)/);
+  assert.match(script, /delete persisted\.videoDataUrl/);
+});
+
 test("select controls use the StillTab glass select treatment", () => {
   assert.match(css, /appearance: none/);
   assert.match(css, /\.settings-row input,[\s\S]*\.settings-row select \{/);
