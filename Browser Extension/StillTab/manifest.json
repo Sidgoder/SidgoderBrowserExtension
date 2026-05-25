@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "StillTab",
+  "version": "1.0.0",
+  "description": "A calm, structured new tab page .",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "16": "icon/icon16.png",
+    "48": "icon/icon48.png",
+    "128": "icon/icon128.png"
+  },
+  "host_permissions": ["https://*/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: blob: https:; connect-src https:; style-src 'self'"
+  }
+}
